@@ -4,11 +4,13 @@
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true %>
+    <span id= "emailError"></span>
   </div>
 
   <div class="field">
     <%= f.label :password %><br />
     <%= f.password_field :password, autocomplete: "off" %>
+    <span id= "passwordError"></span>
   </div>
 
   <% if devise_mapping.rememberable? -%>
@@ -19,8 +21,68 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit "Log in", id: "submit" %>
   </div>
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+<script>
+  
+  var emailHandle = document.getElementById("user_email");
+  var emailErrorHandle = document.getElementById("emailError");
+  var passwordHandle = document.getElementById("user_password");
+  var passwordErrorHandle = document.getElementById("passwordError");
+  var submitHandle = document.getElementById("submit");
+
+  submitHandle.disabled = true;
+
+  function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+  var validator = {
+    email: false,
+    password: false
+  }
+
+  function enableSubmit(){
+    if(Object.values(validator).includes(false)){
+      submitHandle.disabled = true;
+    }else{
+      submitHandle.disabled = false;
+    }
+  }
+
+  emailHandle.onblur = function(){
+    validator.email = false;
+    if(emailHandle.value == ""){
+      emailErrorHandle.innerHTML = "Cant be blank";
+    }else{
+      if(validateEmail(emailHandle.value)){
+        validator.email = true;
+        emailErrorHandle.innerHTML = "valid format";
+      }else{
+        emailErrorHandle.innerHTML = "invalid format";
+      }
+    }
+    enableSubmit();
+  }
+
+  passwordHandle.onblur = function(){
+    validator.password = false;
+    if(passwordHandle.value == ""){
+      passwordErrorHandle.innerHTML = "Password Cannot be blank";
+    } else {
+      if(passwordHandle.value.length < 6){
+        passwordErrorHandle.innerHTML = "minimum 5 charachters needed"
+      } else {
+        validator.password = true;
+        passwordErrorHandle.innerHTML = "";
+      }
+    }
+    enableSubmit();
+  }
+
+</script>
