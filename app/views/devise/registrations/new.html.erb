@@ -15,11 +15,13 @@
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "off" %>
+    <span id="passwordError"></span>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <span id="passwordConfirmationError"></span>
   </div>
 
   <div class="actions">
@@ -32,11 +34,20 @@
 <script>
   var emailHandle = document.getElementById('user_email');
   var emailErrorHandle = document.getElementById('emailError');
+  var passwordHandle = document.getElementById('user_password');
+  var passwordErrorHandle = document.getElementById('passwordError');
+  var passwordConfirmationHandle = document.getElementById('user_password_confirmation');
+  var passwordConfirmationErrorHandle = document.getElementById('passwordConfirmationError');
 
   function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
+
+  // function validatePassword(password) {
+  //   var pwd = /^[A-Za-z0-9]+$/;
+  //   return pwd.test(password);
+  // }
 
   emailHandle.onblur = function(){
     if(emailHandle.value == ""){
@@ -50,6 +61,24 @@
     }
   };
 
+  passwordHandle.onblur = function(){
+    if(passwordHandle.value == ""){
+      passwordErrorHandle.innerHTML = "Password cannot be blank";
+    }else{
+        passwordErrorHandle.innerHTML = "";
+      }
+    }
 
+  passwordConfirmationHandle.onblur = function(){
+    if(passwordConfirmationHandle.value == passwordHandle.value){
+      passwordConfirmationErrorHandle.innerHTML = "";
+    }else{
+      if(passwordConfirmationHandle.value == ""){
+        passwordConfirmationError.innerHTML = "Cannot be blank"
+      }else{
+        passwordConfirmationErrorHandle.innerHTML = "Password doesnt match";
+      }
+    }
+  }
 
 </script>
