@@ -1,5 +1,6 @@
 class RolesController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource #invoking ability.rb
   before_action :set_role, only: [:show, :edit, :update, :destroy]
 
   # GET /roles

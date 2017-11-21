@@ -5,5 +5,7 @@
   <%= @category.name %>
 </p>
 
-<%= link_to 'Edit', edit_category_path(@category) %> |
+<%if can? :update?, @category %>
+<%= link_to 'Edit', edit_category_path(@category) %> 
+|<%end%>
 <%= link_to 'Back', categories_path %>

@@ -21,8 +21,12 @@
         <td><%= article.category.name %></td>
         <td><%= article.publish_date %></td>
         <td><%= link_to 'Show', article %></td>
+        <% if can? :update, article %>
         <td><%= link_to 'Edit', edit_article_path(article) %></td>
+        <%end%>
+        <% if can? :destroy, article %>
         <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +34,6 @@
 
 <br>
 
+<% if can? :create, Article.new %>
 <%= link_to 'New Article', new_article_path %>
+<%end%>

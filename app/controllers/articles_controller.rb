@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  load_and_authorize_resource #invoking ability.rb
   before_action :set_article, only: [:show, :edit, :update, :destroy]
 
   # GET /articles
