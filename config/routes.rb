@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
+  resources :comments
   resources :roles
   get 'form_validation/email'
 
   devise_for :users
+  scope "/admin" do
+    resources :users
+  end
   resources :articles
   resources :categories
   # The priority is based upon order of creation: first created -> highest priority.
