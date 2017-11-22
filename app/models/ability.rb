@@ -4,19 +4,26 @@ class Ability
   def initialize(user)
 
     if user.nil?
-      can :read, [Article, Category]
+      can :read, [Article, Category, Comment]
     elsif user.role? "admin"
-      can :manage, [Article, Category, User]
+      can :manage, [Article, Category, User, Comment]
       can [:create, :read, :update], Role
     elsif user.role? "author"
-      can [:read, :create], [Article, Category]
+      can [:read, :create], [Article, Category, Comment]
       can [:update, :destroy], Article do |article|
         article.user == user
       end
+      can [:update, :destroy], Comment do |comment|
+        comment.article.user == user
+      end
     elsif user.role? "moderator"
-      can [:read, :update], [Article, Category]
+      can [:read, :update], [Article]
+      can :manage, [Comment]
     elsif user.role? "user"
-      can :read, [Article, Category]
+      can :read, [Article, Category, Comment]
+      can :update, Comment do |comment|
+        comment.user == user
+      end
     end
 
 

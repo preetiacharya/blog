@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many :articles
   has_many :permissions
   has_many :roles, through: :permissions
+  has_many :comments
 
   devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable
