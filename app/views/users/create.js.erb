@@ -1,0 +1,19 @@
+//var formHandle = document.getElementById('new_user') can be written as:
+<%if @user.valid? %> 
+	$('#errorMsg').hide();
+	$('#notice').text("Successfully created user");
+	$('#userTable').html("<%= escape_javascript(render 'users')%>");
+	$('#new_user')[0].reset();
+<%else%>
+	$('#errorMsg').html("<%= escape_javascript(render 'errors')%>");
+<%end%>
+
+// //var formHandle = document.getElementById('new_user') can be written as:
+// <%if @user.errors.any? %> //or if @user.valid? (In this case, however, the else commands will have to be the other way round.)
+// 	$('#errorMsg').html("<%= escape_javascript(render 'errors')%>");
+// <%else%>
+// 	$('#errorMsg').hide();
+// 	$('#notice').text("Successfully created user");
+// 	$('#userTable').html("<%= escape_javascript(render 'users')%>");
+// 	$('#new_user')[0].reset();
+// <%end%>
