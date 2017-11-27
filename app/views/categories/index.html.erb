@@ -28,6 +28,8 @@
 
 <br>
 
-<% if can? :create, Category.new %>
-<%= link_to 'New Category', new_category_path %>
-<%end%>
+
+<h3>Add Category</h3>
+<div id="errorMsg"> </div>
+<%= render 'form' %>
+

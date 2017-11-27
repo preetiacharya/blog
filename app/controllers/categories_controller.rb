@@ -7,6 +7,7 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @categories = Category.all
+    @category = Category.new
   end
 
   # GET /categories/1
@@ -32,9 +33,11 @@ class CategoriesController < ApplicationController
       if @category.save
         format.html { redirect_to @category, notice: 'Category was successfully created.' }
         format.json { render :show, status: :created, location: @category }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
