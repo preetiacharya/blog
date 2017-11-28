@@ -1,4 +1,7 @@
 <%if @category.valid? %>
+$('#errorMsg').hide();
+$('#notice').text("Successfully added category");
+$('#categoryTable').html("<%= escape_javascript(render'categories')%>");
 $('#new_category')[0].reset();
 <% else %>
 $('#errorMsg').html("<%= escape_javascript(render 'errors')%>");
