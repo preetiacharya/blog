@@ -2,7 +2,7 @@
 
 <h1>Listing Articles</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Title</th>
@@ -20,12 +20,21 @@
         <td><%= article.body %></td>
         <td><%= article.category.name %></td>
         <td><%= article.publish_date %></td>
-        <td><%= link_to 'Show', article %></td>
+        <td><%= link_to article_path(article.id) do %>
+            <i class="glyphicon glyphicon-eye-open"></i>
+            <%end%>
+        </td>
         <% if can? :update, article %>
-        <td><%= link_to 'Edit', edit_article_path(article) %></td>
+        <td><%= link_to edit_article_path(article.id) do %>
+            <i class='glyphicon glyphicon-pencil'></i>
+            <%end%>
+        </td>
         <%end%>
         <% if can? :destroy, article %>
-        <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to article_path(article.id), method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <i class='glyphicon glyphicon-trash'></i>
+          <%end%>
+        </td>
         <%end%>
       </tr>
     <% end %>
@@ -35,5 +44,7 @@
 <br>
 
 <% if can? :create, Article.new %>
-<%= link_to 'New Article', new_article_path %>
+<%= link_to new_article_path, class: "btn btn-primary" do %>
+  <i class="glyphicon glyphicon-plus"></i> New Article
+<%end%>
 <%end%>

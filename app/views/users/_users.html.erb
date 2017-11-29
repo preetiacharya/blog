@@ -13,7 +13,7 @@
         <td><%= user.email %></td>
         <td><%= user.roles.pluck(:name).join(", ") %></td>
         <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Edit', edit_user_path(user), class: "glyphicon glyphicon-pencil" %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?', remote: true } %></td>
       </tr>
     <% end %>

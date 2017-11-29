@@ -10,12 +10,21 @@
     <% Category.all.each do |category| %>
       <tr id="category_<%= category.id %>">
         <td><%= category.name %></td>
-        <td><%= link_to 'Show', category %></td>
+        <td><%= link_to category_path(category.id) do%> 
+        <i class="glyphicon glyphicon-eye-open"></i>
+        <%end%>
+        </td>
         <% if can? :update, category %>
-        <td><%= link_to 'Edit', edit_category_path(category) %></td>
+        <td><%= link_to edit_category_path(category.id) do %>
+          <i class="glyphicon glyphicon-pencil"></i>
+          <%end%>
+        </td>
         <%end%>
         <%if can? :destroy, category %>
-        <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?', remote: true } %></td>
+        <td><%= link_to category_path(category.id), method: :delete, data: { confirm: 'Are you sure?', remote: true } do %>
+          <i class="glyphicon glyphicon-trash"></i>
+          <%end%>
+        </td>
         <%end%>
       </tr>
     <% end %>

@@ -3,6 +3,7 @@ $('#errorMsg').hide();
 $('#notice').text("Successfully added category");
 $('#categoryTable').html("<%= escape_javascript(render'categories')%>");
 $('#new_category')[0].reset();
+$('#article_category_id').append("<%= escape_javascript(render 'option')%>");
 <% else %>
 $('#errorMsg').html("<%= escape_javascript(render 'errors')%>");
 <% end %>

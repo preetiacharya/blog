@@ -1,5 +1,49 @@
-<h1>New Article</h1>
+<div class="row">
+	<div class="col-md-6">
+	<div class="page-header">
+		<h3>New Article</h3>
+	</div>
+		<%= render 'form' %>
+	</div>
 
-<%= render 'form' %>
+	<div class="col-md-6">
+
+	<div class="page-header">
+		<h3>Add Category</h3>
+	</div>
+
+			  <!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+		  Add Category
+		</button>
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Category</h4>
+		      </div>
+		      <div class="modal-body">
+		        <%= render './categories/form' %>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="page-header">
+			<h3>Categories</h3>
+		</div>
+		<ul class="list-group">
+			<% Category.all.each do |category| %>
+			<li class="list-group-item">
+				<span class="badge"><%= category.articles.size %></span>
+				<%= category.name %>
+			</li>
+			<%end%>
+		</ul>
+	</div>
+</div>
 
 <%= link_to 'Back', articles_path %>
