@@ -6,6 +6,7 @@ $('#new_category')[0].reset();
 $('#article_category_id').append("<%= escape_javascript(render 'option')%>");
 $('#myModal').modal('toggle');
 $('.list-group').append("<%=escape_javascript(render 'list')%>");
+$('#article_category_id').trigger('chosen:updated')
 <% else %>
 $('#errorMsg').html("<%= escape_javascript(render 'errors')%>");
 <% end %>
