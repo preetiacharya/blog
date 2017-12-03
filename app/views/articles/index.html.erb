@@ -1,4 +1,79 @@
-<p id="notice"><%= notice %></p>
+<% if can? :create, Article.new %>
+<%= link_to new_article_path, class: "btn btn-primary" do %>
+  <i class="glyphicon glyphicon-plus"></i> New Article
+<%end%>
+<%end%>
+
+<div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+
+          <h1 class="my-4">Listing Articles</h1>
+
+          <% @articles.each do |article| %>
+          <!-- Blog Post -->
+          <div class="card mb-4">
+          
+            <img class="card-img-top" src="http://placehold.it/600x300" alt="Card image cap">
+            <div class="card-header text-muted">
+            <p><span class="glyphicon glyphicon-time"></span>
+              Posted on <%= article.created_at.strftime("%B %d, %Y at %H:%M %p") %> in
+              <a href="#"><%= link_to article.category.name, category_path(article.category_id) %></a></p>
+            </div>
+            <div class="card-body">
+              <h2 class="card-title"> <%= link_to article.title, article_path(article.id) %></h2>
+              <p class="card-text"><%= article.body.truncate(200) %></p>
+
+              <%= link_to article_path(article.id), class: "btn btn-primary" do %>
+                Read more <span class="glyphicon glyphicon-chevron-right">
+              <%end%>
+
+            </div>
+            </br><br/>
+          </div>
+          <% end %>
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+          <!-- Search Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-secondary" type="button">Go!</button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Categories</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <ul class="list-unstyled mb-0">
+                    
+                    <% Category.all.each do |category| %>
+                    <li>
+                      <%= link_to category.name, category_path(category.id) %>
+                    </li>
+                    <%end%>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<br/>
+<%= will_paginate @articles %>
 
 <h1>Listing Articles</h1>
 
@@ -43,8 +118,3 @@
 
 <br>
 
-<% if can? :create, Article.new %>
-<%= link_to new_article_path, class: "btn btn-primary" do %>
-  <i class="glyphicon glyphicon-plus"></i> New Article
-<%end%>
-<%end%>

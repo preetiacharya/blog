@@ -6,12 +6,13 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.json
   def index
-    @articles = Article.all
+    @articles = Article.paginate(:page => params[:page], :per_page => 3)
   end
 
   # GET /articles/1
   # GET /articles/1.json
   def show
+    @comment = Comment.new
   end
 
   # GET /articles/new
@@ -33,9 +34,11 @@ class ArticlesController < ApplicationController
       if @article.save
         format.html { redirect_to @article, notice: 'Article was successfully created.' }
         format.json { render :show, status: :created, location: @article }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @article.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
