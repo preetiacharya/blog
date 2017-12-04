@@ -14,8 +14,12 @@
     <% @roles.each do |role| %>
       <tr>
         <td><%= role.name %></td>
-        <td><%= link_to 'Show', role %></td>
-        <td><%= link_to 'Edit', edit_role_path(role) %></td>
+        <td><%= link_to role_path(role.id) do %></td>
+        <i class="glyphicon glyphicon-eye-open"></i>
+        <%end%>
+        <td><%= link_to edit_role_path(role.id) do %></td>
+        <i class="glyphicon glyphicon-pencil"></i>
+        <%end%>
         <% if can? :destroy, role %>
         <td><%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%end%>
@@ -27,3 +31,27 @@
 <br>
 
 <%= link_to 'New Role', new_role_path %>
+
+
+
+<% Category.all.each do |category| %>
+      <tr id="category_<%= category.id %>">
+        <td><%= category.name %></td>
+        <td><%= link_to category_path(category.id) do%> 
+        <i class="glyphicon glyphicon-eye-open"></i>
+        <%end%>
+        </td>
+        <% if can? :update, category %>
+        <td><%= link_to edit_category_path(category.id) do %>
+          <i class="glyphicon glyphicon-pencil"></i>
+          <%end%>
+        </td>
+        <%end%>
+        <%if can? :destroy, category %>
+        <td><%= link_to category_path(category.id), method: :delete, data: { confirm: 'Are you sure?', remote: true } do %>
+          <i class="glyphicon glyphicon-trash"></i>
+          <%end%>
+        </td>
+        <%end%>
+      </tr>
+    <% end %>

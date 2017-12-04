@@ -1,86 +1,73 @@
 <p id="notice"><%= notice %></p>
 <!-- Page Content -->
     <div class="container">
-
-        <div class="row">
-
-            <!-- Blog Post Content Column -->
+    <div class="row">
+    <!-- Blog Post Content Column -->
             <div class="col-sm-8">
-
                 <!-- Blog Post -->
-
                 <!-- Title -->
                 <h1><%= @article.title %></h1>
-
                 <!-- Author -->
                 <p class="lead">
-                    by <a href="#"><%= @article.category.name %></a>
+                    by <a href="#"><%= link_to @article.category.name, category_path(@article.category_id) %></a>
                 </p>
-
                 <hr>
-
                 <!-- Date/Time -->
                 <p><span class="glyphicon glyphicon-time"></span>
               Posted on <%= @article.created_at.strftime("%B %d, %Y at %H:%M %p") %> in
               <a href="#"><%= link_to @article.category.name, category_path(@article.category_id) %></a></p>
-
                 <hr>
-
                 <!-- Preview Image -->
                 <img class="img-responsive" src="http://placehold.it/900x300" alt="">
-
                 <hr>
-
                 <!-- Post Content -->
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero, obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi nam quia corporis eligendi eos magni recusandae laborum minus inventore?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
-
+                <p>
+                    <%= @article.body %> 
+                </p>
                 <hr>
-
                 <!-- Blog Comments -->
-
-                <!-- Comments Form -->
-                <div class="well">
-                    <h4>Leave a Comment:</h4>
-                    <form role="form">
-                        <div class="form-group">
-                                <% @comment = Comment.new %>
-                                <% if user_signed_in? %>
-                                    <%= render '/comments/form' %>
-                                <%end%>
-                        </div>                        
-                    </form>
-                </div>
-
+                <h3> Previous Comments</h3>
                 <hr>
-
                 <!-- Comment -->
                 <% @article.comments.each do |comment| %>
                 <div class="media">
                     <a class="pull-left" href="#">
                         <img class="media-object" src="http://placehold.it/64x64" alt="">
                     </a>
+
+                    <% if can? :update, comment %>
+                    <%= link_to edit_comment_path(comment.id), class: "pull-right" do %>
+                    <i class="glyphicon glyphicon-pencil"></i>
+                    <%end%>
+                    <% end %>
+                    <% if can? :destroy, comment %>
+                    <%= link_to comment_path(comment.id), method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: "pull-right" do%>
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <%end%>
+                    <% end %>
                     <div class="media-body">
                         <h4 class="media-heading"> <%= comment.title %>
                             <small> <%= comment.created_at.strftime("%B %d, %Y at %H:%M %p") %></small>
                         </h4>
                         <%= comment.body %>
                     </div>
-                    <% if can? :update, comment %>
-                    <%= link_to edit_comment_path(comment.id) do %>
-                    <i class="glyphicon glyphicon-pencil"></i>
-                    <%end%>
-                    <% end %>
-                    <% if can? :destroy, comment %>
-                    <%= link_to comment_path(comment.id), method: :delete, data: { confirm: 'Are you sure?', remote: true } do%>
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <%end%>
-                    <% end %>
+                    
+                    
                 </div>
+                </hr>
                 <%end %>
+
+                <!-- Comments Form -->
+
+                <div class="well">
+                    <h4>Leave a Comment:</h4>
+                                <% @comment = Comment.new %>
+                                <% if user_signed_in? %>
+                                    <%= render '/comments/form' %>
+                                <%else%>
+                                    <h5>Login to add a comment</h5>
+                                <%end%>                        
+                </div>
             </div>
 
             <!-- Blog Sidebar Widgets Column -->
@@ -120,75 +107,10 @@
 
         </div>
         <!-- /.row -->
-
         <hr>
-
-        
-
     </div>
-    
 </body>
-
 </html>
-
-
-
-
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @article.title %>
-</p>
-
-<p>
-  <strong>Body:</strong>
-  <%= @article.body %>
-</p>
-
-<p>
-  <strong>Category:</strong>
-  <%= @article.category.name %>
-</p>
-
-<p>
-  <strong>Publish date:</strong>
-  <%= @article.publish_date %>
-</p>
-
-<h3> Previous Comments </h3>
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Body</th>
-      
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @article.comments.each do |comment| %>
-      <tr>
-        <td><%= comment.title %></td>
-        <td><%= comment.body %></td>
-        
-        <% if can? :update, comment %>
-        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        <% end %>
-        <% if can? :destroy, comment %>
-        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<% @comment = Comment.new %>
-<h3> Add Comment </h3>
-<% if user_signed_in? %>
-<%= render '/comments/form' %>
-<%end%>
 
 <% if can? :update, @article %>
 <%= link_to 'Edit', edit_article_path(@article) %> 
